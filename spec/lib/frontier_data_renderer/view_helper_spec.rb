@@ -8,8 +8,9 @@ describe FrontierDataRenderer::ViewHelper do
   end
 
   describe "#render_data" do
-    subject { helper.render_data(value, format) }
+    subject { helper.render_data(value, format, opts) }
     let(:helper) { FakeHelper.new }
+    let(:opts) { {} }
 
     context "with a value" do
       context "when format is a datetime" do
@@ -24,6 +25,20 @@ describe FrontierDataRenderer::ViewHelper do
         let(:value) { Date.new(2015, 5, 19) }
 
         it { should include("2015-05-19") }
+      end
+
+      context "when format is a percentage" do
+        let(:format) { :percentage }
+        let(:value)  { 55.7 }
+
+        context "without args" do
+          it { should include("56%") }
+        end
+
+        context "with args" do
+          let(:opts) { {precision: 1} }
+          it { should include("55.7%") }
+        end
       end
 
       context "when format is a string" do

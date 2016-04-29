@@ -16,6 +16,8 @@ private
       time_tag(value.to_datetime, opts.reverse_merge(format: :default))
     when :date
       time_tag(value.to_date, opts.reverse_merge(format: :default))
+    when :percentage
+      number_to_percentage(value, opts.reverse_merge(precision: 0))
     else
       value
     end
