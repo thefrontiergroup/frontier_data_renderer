@@ -29,4 +29,3 @@ render_data(55, :percentage, precision: 1) # => 55.0%
 
 # Strings
 render_data("Jordan") # => "Jordan"
-
