@@ -11,6 +11,9 @@ gem 'frontier_data_renderer', github: "thefrontiergroup/frontier_data_renderer"
 In your view, use `render_data` to show data
 
 ```ruby
+# When rendering a nil object, no matter what type you'll get
+render_data(nil) # => <span class="text-muted">N/A</span>
+
 # Date
 render_data(Date.new(2016, 4, 29), :date) # => 2016-04-29
 render_data(Date.new(2016, 4, 29), :date, {format: :my_format}) # => "29/4/2016"
@@ -26,5 +29,4 @@ render_data(55, :percentage, precision: 1) # => 55.0%
 
 # Strings
 render_data("Jordan") # => "Jordan"
-render_data(nil)      # => <span class="text-muted">N/A</span>
 
