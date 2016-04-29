@@ -5,7 +5,7 @@ Frontier Data Renderer provides a view helper to make rendering data on profile 
 ## Installation
 
 ```ruby
-gem 'frontier_data_renderer', github: "thefrontiergroup/frontier_data_renderer"
+gem "frontier_data_renderer", github: "thefrontiergroup/frontier_data_renderer"
 ```
 
 ## Usage
