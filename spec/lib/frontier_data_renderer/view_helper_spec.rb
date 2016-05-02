@@ -24,12 +24,12 @@ describe FrontierDataRenderer::ViewHelper do
 
         context "when false" do
           let(:value) { false }
-          it { should eq("No") }
+          it { should eq("<span class=\"text-muted\">No</span>") }
         end
 
         context "when nil" do
           let(:value) { nil }
-          it { should eq("No") }
+          it { should eq("<span class=\"text-muted\">No</span>") }
         end
       end
 
