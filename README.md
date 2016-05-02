@@ -37,3 +37,17 @@ render_data(55, :percentage, precision: 1) # => "55.0%"
 
 # Strings
 render_data("Jordan") # => "Jordan"
+```
+
+## Overriding default classes on N/A message
+
+You can override `FrontierDataRenderer.no_data_class` to provide your own CSS classes to be rendered on the 'N/A' span.
+
+You might want to create an initializer to do this. Example:
+
+```ruby
+# in config/initializers/frontier_data_renderer.rb
+
+FrontierDataRenderer.no_data_class = "Jordan Rules" # Single class
+FrontierDataRenderer.no_data_class = ["Jordan", "Rules"] # Multiple classes
+```
