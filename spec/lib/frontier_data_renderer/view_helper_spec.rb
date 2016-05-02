@@ -13,6 +13,26 @@ describe FrontierDataRenderer::ViewHelper do
     let(:opts) { {} }
 
     context "with a value" do
+      context "when format is a boolean" do
+        let(:format) { :boolean }
+        let(:value) { Date.new(2015, 5, 19) }
+
+        context "when true" do
+          let(:value) { true }
+          it { should eq("Yes") }
+        end
+
+        context "when false" do
+          let(:value) { false }
+          it { should eq("No") }
+        end
+
+        context "when nil" do
+          let(:value) { nil }
+          it { should eq("No") }
+        end
+      end
+
       context "when format is a datetime" do
         let(:format) { :datetime }
         let(:value) { DateTime.new(2015, 5, 19, 17, 24) }

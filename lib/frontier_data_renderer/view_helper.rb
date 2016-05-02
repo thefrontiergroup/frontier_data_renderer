@@ -1,7 +1,7 @@
 module FrontierDataRenderer::ViewHelper
 
  def render_data(value, type=:string, opts={})
-    if value.present?
+    if value.present? || type == :boolean
       format_value(value, type, opts)
     else
       no_data_message
@@ -12,6 +12,8 @@ private
 
   def format_value(value, type, opts)
     case type.to_sym
+    when :boolean
+      value ? "Yes" : "No"
     when :datetime
       time_tag(value.to_datetime, opts.reverse_merge(format: :default))
     when :date
