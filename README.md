@@ -17,10 +17,13 @@ In your view, use `render_data` to show data
 render_data(nil) # => "<span class="text-muted">N/A</span>"
 
 # Boolean
-
 render_data(true, :boolean) # => "Yes"
 render_data(false, :boolean) # => "<span class="text-muted">No</span>"
 render_data(nil, :boolean) # => "<span class="text-muted">No</span>"
+
+# Currency
+render_data(74.8, :currency) # => "$74.80"
+render_data(74.8, :currency, precision: 1) # => "$74.8"
 
 # Date
 render_data(Date.new(2016, 4, 29), :date) # => "2016-04-29"

@@ -33,6 +33,13 @@ describe FrontierDataRenderer::ViewHelper do
         end
       end
 
+      context "when format is a currency" do
+        let(:format) { :currency }
+        let(:value) { 69.12 }
+
+        it { should include("$69.12") }
+      end
+
       context "when format is a datetime" do
         let(:format) { :datetime }
         let(:value) { DateTime.new(2015, 5, 19, 17, 24) }

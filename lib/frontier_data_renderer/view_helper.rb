@@ -14,6 +14,8 @@ private
     case type.to_sym
     when :boolean
       value ? "Yes" : no_data_message(:boolean)
+    when :currency
+      number_to_currency(value, opts)
     when :datetime
       time_tag(value.to_datetime, opts.reverse_merge(format: :default))
     when :date
