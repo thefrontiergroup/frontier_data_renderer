@@ -22,6 +22,12 @@ private
       time_tag(value.to_date, opts.reverse_merge(format: :default))
     when :percentage
       number_to_percentage(value, opts.reverse_merge(precision: 0))
+    when :text
+      if opts[:length].present?
+        content_tag(:span, truncate(value, opts), title: value)
+      else
+        value
+      end
     else
       value
     end

@@ -40,6 +40,10 @@ render_data(55, :percentage, precision: 1) # => "55.0%"
 
 # Strings
 render_data("Jordan") # => "Jordan"
+
+# Text
+render_data("Jordan Rules!", :text) # => "Jordan Rules!"
+render_data("Jordan Rules!", :text, length: 6) # => "<span title='Jordan Rules!'>Jor...</span>"
 ```
 
 ## Overriding default classes on N/A message

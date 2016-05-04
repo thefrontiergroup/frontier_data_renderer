@@ -68,6 +68,21 @@ describe FrontierDataRenderer::ViewHelper do
         end
       end
 
+      context "when format is a text" do
+        let(:format) { :text }
+        let(:value) { "Thingo" }
+
+        context "and no length is specified" do
+          it { should eq("Thingo") }
+        end
+
+        context "and a length is specified" do
+          let(:opts) { {length: 5} }
+          it { should eq("<span title=\"Thingo\">Th...</span>") }
+        end
+
+      end
+
       context "when format is a string" do
         let(:format) { :string }
         let(:value) { "Thing" }
