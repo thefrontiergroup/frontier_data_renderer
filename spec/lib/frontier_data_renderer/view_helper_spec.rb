@@ -92,9 +92,11 @@ describe FrontierDataRenderer::ViewHelper do
     end
 
     context "when value is nil" do
-      let(:format) { :string }
-      let(:value)  { nil }
-      it { should include("N/A") }
+      context "when using default no_data_class" do
+        let(:format) { :string }
+        let(:value)  { nil }
+        it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
+      end
     end
   end
 
