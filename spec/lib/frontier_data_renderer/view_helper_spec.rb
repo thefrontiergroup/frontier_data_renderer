@@ -97,6 +97,24 @@ describe FrontierDataRenderer::ViewHelper do
         let(:value)  { nil }
         it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
       end
+
+      context "when using single custom class for no_data_class" do
+        before { FrontierDataRenderer.no_data_class = "text-quiet" }
+        after  { FrontierDataRenderer.no_data_class = "text-muted" }
+
+        let(:format) { :string }
+        let(:value)  { nil }
+        it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+      end
+
+      context "when using multiple custom classes for no_data_class" do
+        before { FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"] }
+        after  { FrontierDataRenderer.no_data_class = "text-muted" }
+
+        let(:format) { :string }
+        let(:value)  { nil }
+        it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
+      end
     end
   end
 
