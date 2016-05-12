@@ -34,14 +34,10 @@ private
   end
 
   def no_data_message(type)
-    content_tag(:span, no_data_text(type), class: "text-muted")
-  end
-
-  def no_data_text(type)
     if type == :boolean
-      "No"
+      content_tag(:span, "No", class: FrontierDataRenderer.no_data_class)
     else
-      "N/A"
+      content_tag(:abbr, "N/A", class: FrontierDataRenderer.no_data_class, title: "Not available")
     end
   end
 
