@@ -14,7 +14,7 @@ In your view, use `render_data` to show data
 
 ```ruby
 # When rendering a nil object, no matter what type you'll get
-render_data(nil) # => "<span class="text-muted">N/A</span>"
+render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
 
 # Boolean
 render_data(true, :boolean) # => "Yes"
@@ -48,13 +48,15 @@ render_data("Jordan Rules!", :text, length: 6) # => "<span title='Jordan Rules!'
 
 ## Overriding default classes on N/A message
 
-You can override `FrontierDataRenderer.no_data_class` to provide your own CSS classes to be rendered on the 'N/A' span.
+You can override `FrontierDataRenderer.no_data_class` to provide your own CSS classes to be rendered on the 'N/A' `abbr` HTML element.
 
 You might want to create an initializer to do this. Example:
 
 ```ruby
 # in config/initializers/frontier_data_renderer.rb
 
-FrontierDataRenderer.no_data_class = "Jordan Rules" # Single class
-FrontierDataRenderer.no_data_class = ["Jordan", "Rules"] # Multiple classes
+FrontierDataRenderer.no_data_class = "text-quiet" # Single class
+# => "<abbr class="text-quiet" title="Not available">N/A</abbr>
+FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"] # Multiple classes
+# => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>
 ```
