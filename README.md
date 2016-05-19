@@ -30,8 +30,8 @@ render_data(Date.new(2016, 4, 29), :date) # => "2016-04-29"
 render_data(Date.new(2016, 4, 29), :date, {format: :my_format}) # => "29/4/2016"
 
 # DateTime
-render_data(DateDateTime.new(2016, 4, 29, 17, 30), :date) # => "Fri, 29 April 2016 17:30:00 +0000"
-render_data(DateTime.new(2016, 4, 29, 17, 30), :date, {format: :my_format}) # => "29/4/2016 5:30PM"
+render_data(DateDateTime.new(2016, 4, 29, 17, 30), :datetime) # => "Fri, 29 April 2016 17:30:00 +0000"
+render_data(DateTime.new(2016, 4, 29, 17, 30), :datetime, {format: :my_format}) # => "29/4/2016 5:30PM"
 
 # Percentage
 render_data(55, :percentage) # => "55%"
