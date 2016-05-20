@@ -8,9 +8,9 @@ describe FrontierDataRenderer::ViewHelper do
   end
 
   describe "#render_data" do
-    subject { helper.render_data(value, format, opts) }
+    subject { helper.render_data(value, format, options) }
     let(:helper) { FakeHelper.new }
-    let(:opts) { {} }
+    let(:options) { {} }
 
     context "with a value" do
       context "when format is a boolean" do
@@ -24,11 +24,6 @@ describe FrontierDataRenderer::ViewHelper do
 
         context "when false" do
           let(:value) { false }
-          it { should eq("<span class=\"text-muted\">No</span>") }
-        end
-
-        context "when nil" do
-          let(:value) { nil }
           it { should eq("<span class=\"text-muted\">No</span>") }
         end
       end
@@ -63,7 +58,7 @@ describe FrontierDataRenderer::ViewHelper do
         end
 
         context "with args" do
-          let(:opts) { {precision: 1} }
+          let(:options) { {precision: 1} }
           it { should include("55.7%") }
         end
       end
@@ -77,7 +72,7 @@ describe FrontierDataRenderer::ViewHelper do
         end
 
         context "and a length is specified" do
-          let(:opts) { {length: 5} }
+          let(:options) { {length: 5} }
           it { should eq("<span title=\"Thingo\">Th...</span>") }
         end
 
@@ -92,9 +87,134 @@ describe FrontierDataRenderer::ViewHelper do
     end
 
     context "when value is nil" do
-      let(:format) { :string }
       let(:value)  { nil }
-      it { should include("N/A") }
+
+      context "when type is boolean" do
+        let(:format) { :boolean }
+
+        context "when using default no_data_class" do
+          it { should eq("<span class=\"text-muted\">No</span>") }
+        end
+
+        describe "setting class on object" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_class
+            FrontierDataRenderer.no_data_class = no_data_class
+            example.run
+            FrontierDataRenderer.no_data_class = previous_value
+          end
+          let(:no_data_class) { "text-quiet" }
+
+          describe "globally" do
+            context "with a single class" do
+              let(:no_data_class) { "text-quiet" }
+              it { should eq("<span class=\"text-quiet\">No</span>") }
+            end
+
+            context "with multiple classes" do
+              let(:no_data_class) { ["text-quiet", "data-na"] }
+              it { should eq("<span class=\"text-quiet data-na\">No</span>") }
+            end
+          end
+
+          describe "locally" do
+            let(:options) { {no_data_class: "yolo"} }
+            it { should eq("<span class=\"yolo\">No</span>") }
+          end
+        end
+
+        describe "overriding text" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_boolean_data_text
+            FrontierDataRenderer.no_boolean_data_text = no_boolean_data_text
+            example.run
+            FrontierDataRenderer.no_boolean_data_text = previous_value
+          end
+          let(:no_boolean_data_text) { "Nah" }
+
+          context "globally" do
+            it { should eq("<span class=\"text-muted\">Nah</span>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_text: "Yeah, nah"} }
+            it { should eq("<span class=\"text-muted\">Yeah, nah</span>") }
+          end
+        end
+      end
+
+      context "when type is not boolean" do
+        let(:format) { :string }
+
+        context "when using default no_data_class" do
+          it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
+        end
+
+        describe "globally" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_class
+            FrontierDataRenderer.no_data_class = no_data_class
+            example.run
+            FrontierDataRenderer.no_data_class = previous_value
+          end
+          let(:no_data_class) { "text-quiet" }
+
+          describe "overriding FrontierDataRenderer.no_data_class" do
+            context "with a single class" do
+              it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+            end
+
+            context "with multiple classes" do
+              let(:no_data_class) { ["text-quiet", "data-na"] }
+              it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
+            end
+          end
+
+          describe "locally" do
+            let(:options) { {no_data_class: "yolo"} }
+            it { should eq("<abbr class=\"yolo\" title=\"Not available\">N/A</abbr>") }
+          end
+        end
+
+        describe "overriding text" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_text
+            FrontierDataRenderer.no_data_text = no_data_text
+            example.run
+            FrontierDataRenderer.no_data_text = previous_value
+          end
+          let(:no_data_text) { "No data, hey" }
+
+          context "globally" do
+            it { should eq("<abbr class=\"text-muted\" title=\"Not available\">No data, hey</abbr>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_text: "Jordan rules"} }
+            it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
+          end
+        end
+
+        describe "overriding title" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_title
+            FrontierDataRenderer.no_data_title = no_data_title
+            example.run
+            FrontierDataRenderer.no_data_title = previous_value
+          end
+          let(:no_data_title) { "No data, hey" }
+
+          context "globally" do
+            it { should eq("<abbr class=\"text-muted\" title=\"No data, hey\">N/A</abbr>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_title: "Not applicable"} }
+            it { should eq("<abbr class=\"text-muted\" title=\"Not applicable\">N/A</abbr>") }
+          end
+        end
+      end
+
     end
   end
 
