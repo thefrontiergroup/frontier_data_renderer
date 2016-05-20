@@ -143,6 +143,11 @@ describe FrontierDataRenderer::ViewHelper do
           let(:options) { {no_content_text: "Jordan rules"} }
           it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
         end
+
+        describe "overriding no_content_title" do
+          let(:options) { {no_content_title: "Not applicable"} }
+          it { should eq("<abbr class=\"text-muted\" title=\"Not applicable\">N/A</abbr>") }
+        end
       end
 
     end
