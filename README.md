@@ -16,11 +16,11 @@ In your view, use `render_data` to show data
 # When rendering a nil object, for all types except for boolean you'll get:
 render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
 
-# You can override the message provided by passing the 'no_content_text' option:
-render_data(nil, :string, {no_content_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
+# You can override the message provided by passing the 'no_data_text' option:
+render_data(nil, :string, {no_data_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
 
-# You can override the title of the abbreviation by passing the 'no_content_title' option:
-render_data(nil, :string, {no_content_title: "Not applicable"}) # => "<abbr class="text-muted" title="Not applicable">N/A</abbr>"
+# You can override the title of the abbreviation by passing the 'no_data_title' option:
+render_data(nil, :string, {no_data_title: "Not applicable"}) # => "<abbr class="text-muted" title="Not applicable">N/A</abbr>"
 
 # Boolean
 render_data(true, :boolean) # => "Yes"

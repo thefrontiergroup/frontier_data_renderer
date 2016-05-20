@@ -111,8 +111,8 @@ describe FrontierDataRenderer::ViewHelper do
           end
         end
 
-        describe "overriding no_content_text" do
-          let(:options) { {no_content_text: "Yeah, nah"} }
+        describe "overriding no_data_text" do
+          let(:options) { {no_data_text: "Yeah, nah"} }
           it { should eq("<span class=\"text-muted\">Yeah, nah</span>") }
         end
       end
@@ -139,13 +139,13 @@ describe FrontierDataRenderer::ViewHelper do
           end
         end
 
-        describe "overriding no_content_text" do
-          let(:options) { {no_content_text: "Jordan rules"} }
+        describe "overriding no_data_text" do
+          let(:options) { {no_data_text: "Jordan rules"} }
           it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
         end
 
-        describe "overriding no_content_title" do
-          let(:options) { {no_content_title: "Not applicable"} }
+        describe "overriding no_data_title" do
+          let(:options) { {no_data_title: "Not applicable"} }
           it { should eq("<abbr class=\"text-muted\" title=\"Not applicable\">N/A</abbr>") }
         end
       end
