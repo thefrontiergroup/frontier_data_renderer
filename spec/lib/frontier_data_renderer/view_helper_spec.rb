@@ -96,18 +96,26 @@ describe FrontierDataRenderer::ViewHelper do
           it { should eq("<span class=\"text-muted\">No</span>") }
         end
 
-        describe "overriding FrontierDataRenderer.no_data_class" do
+        describe "setting class on object" do
           before { FrontierDataRenderer.no_data_class = no_data_class }
           after  { FrontierDataRenderer.no_data_class = "text-muted" }
+          let(:no_data_class) { "text-quiet" }
 
-          context "with a single class" do
-            let(:no_data_class) { "text-quiet" }
-            it { should eq("<span class=\"text-quiet\">No</span>") }
+          describe "overriding FrontierDataRenderer.no_data_class" do
+            context "with a single class" do
+              let(:no_data_class) { "text-quiet" }
+              it { should eq("<span class=\"text-quiet\">No</span>") }
+            end
+
+            context "with multiple classes" do
+              let(:no_data_class) { ["text-quiet", "data-na"] }
+              it { should eq("<span class=\"text-quiet data-na\">No</span>") }
+            end
           end
 
-          context "with multiple classes" do
-            let(:no_data_class) { ["text-quiet", "data-na"] }
-            it { should eq("<span class=\"text-quiet data-na\">No</span>") }
+          describe "setting no_data_class option" do
+            let(:options) { {no_data_class: "yolo"} }
+            it { should eq("<span class=\"yolo\">No</span>") }
           end
         end
 
@@ -124,18 +132,26 @@ describe FrontierDataRenderer::ViewHelper do
           it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
         end
 
-        describe "overriding FrontierDataRenderer.no_data_class" do
+        describe "setting class on object" do
           before { FrontierDataRenderer.no_data_class = no_data_class }
           after  { FrontierDataRenderer.no_data_class = "text-muted" }
+          let(:no_data_class) { "text-quiet" }
 
-          context "with a single class" do
-            let(:no_data_class) { "text-quiet" }
-            it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+          describe "overriding FrontierDataRenderer.no_data_class" do
+            context "with a single class" do
+              let(:no_data_class) { "text-quiet" }
+              it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+            end
+
+            context "with multiple classes" do
+              let(:no_data_class) { ["text-quiet", "data-na"] }
+              it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
+            end
           end
 
-          context "with multiple classes" do
-            let(:no_data_class) { ["text-quiet", "data-na"] }
-            it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
+          describe "setting no_data_class option" do
+            let(:options) { {no_data_class: "yolo"} }
+            it { should eq("<abbr class=\"yolo\" title=\"Not available\">N/A</abbr>") }
           end
         end
 

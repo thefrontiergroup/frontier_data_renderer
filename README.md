@@ -16,6 +16,9 @@ In your view, use `render_data` to show data
 # When rendering a nil object, for all types except for boolean you'll get:
 render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
 
+# You can override the class by passing the 'no_data_class' option:
+render_data(nil, :string, {no_data_class: "yolo"}) # => "<abbr class="yolo" title="Not available">N/A</abbr>"
+
 # You can override the message provided by passing the 'no_data_text' option:
 render_data(nil, :string, {no_data_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
 
@@ -52,7 +55,7 @@ render_data("Jordan Rules!", :text) # => "Jordan Rules!"
 render_data("Jordan Rules!", :text, length: 6) # => "<span title='Jordan Rules!'>Jor...</span>"
 ```
 
-## Overriding default classes on N/A message
+## Globally overriding empty data classes, messages, and titles
 
 You can override `FrontierDataRenderer.no_data_class` to provide your own CSS classes to be rendered on the 'N/A' `abbr` HTML element.
 
@@ -66,3 +69,6 @@ FrontierDataRenderer.no_data_class = "text-quiet" # Single class
 FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"] # Multiple classes
 # => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>
 ```
+
+Local definitions via options will take precedence over global definitions
+.

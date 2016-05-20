@@ -1,6 +1,6 @@
 class FrontierDataRenderer
   class << self
-    attr_accessor :no_data_class
+    attr_accessor :no_data_class, :no_data_text, :no_data_title
   end
 end
 
