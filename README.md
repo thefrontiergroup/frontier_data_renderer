@@ -14,17 +14,22 @@ In your view, use `render_data` to show data
 
 ```ruby
 # When rendering a nil object, for all types except for boolean you'll get:
-render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
+render_data(nil)
+# => "<abbr class="text-muted" title="Not available">N/A</abbr>"
 
 # You can override the class by passing the 'no_data_class' option:
-render_data(nil, :string, {no_data_class: "text-quiet"}) # => "<abbr class="text-quiet" title="Not available">N/A</abbr>"
-render_data(nil, :string, {no_data_class: ["text-quiet", "data-na"]}) # => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>"
+render_data(nil, :string, {no_data_class: "text-quiet"})
+# => "<abbr class="text-quiet" title="Not available">N/A</abbr>"
+render_data(nil, :string, {no_data_class: ["text-quiet", "data-na"]})
+# => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>"
 
 # You can override the text provided by passing the 'no_data_text' option:
-render_data(nil, :string, {no_data_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
+render_data(nil, :string, {no_data_text: "-"})
+# => "<abbr class="text-muted" title="Not available">-</abbr>"
 
 # You can override the title of the abbreviation by passing the 'no_data_title' option:
-render_data(nil, :string, {no_data_title: "Not applicable"}) # => "<abbr class="text-muted" title="Not applicable">N/A</abbr>"
+render_data(nil, :string, {no_data_title: "Not applicable"})
+# => "<abbr class="text-muted" title="Not applicable">N/A</abbr>"
 
 # Boolean
 render_data(true, :boolean) # => "Yes"
@@ -71,5 +76,4 @@ FrontierDataRenderer.no_data_title = "No data available"
 # <abbr class="text-quiet data-na" title="No data available">-</abbr>
 ```
 
-Local definitions via options will take precedence over global definitions
-.
+Local definitions via options will take precedence over global definitions.
