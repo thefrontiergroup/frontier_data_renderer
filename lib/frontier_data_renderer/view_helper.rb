@@ -37,7 +37,10 @@ private
     if type == :boolean
       content_tag(:span, options[:no_content_text] || "No", class: FrontierDataRenderer.no_data_class)
     else
-      content_tag(:abbr, options[:no_content_text] || "N/A", class: FrontierDataRenderer.no_data_class, title: options[:no_content_title] || "Not available")
+      content_tag(:abbr, options[:no_content_text] || "N/A", {
+        class: FrontierDataRenderer.no_data_class,
+        title: options[:no_content_title] || "Not available"
+      })
     end
   end
 
