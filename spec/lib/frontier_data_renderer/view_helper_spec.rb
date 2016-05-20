@@ -97,11 +97,15 @@ describe FrontierDataRenderer::ViewHelper do
         end
 
         describe "setting class on object" do
-          before { FrontierDataRenderer.no_data_class = no_data_class }
-          after  { FrontierDataRenderer.no_data_class = "text-muted" }
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_class
+            FrontierDataRenderer.no_data_class = no_data_class
+            example.run
+            FrontierDataRenderer.no_data_class = previous_value
+          end
           let(:no_data_class) { "text-quiet" }
 
-          describe "overriding FrontierDataRenderer.no_data_class" do
+          describe "globally" do
             context "with a single class" do
               let(:no_data_class) { "text-quiet" }
               it { should eq("<span class=\"text-quiet\">No</span>") }
@@ -113,15 +117,29 @@ describe FrontierDataRenderer::ViewHelper do
             end
           end
 
-          describe "setting no_data_class option" do
+          describe "locally" do
             let(:options) { {no_data_class: "yolo"} }
             it { should eq("<span class=\"yolo\">No</span>") }
           end
         end
 
-        describe "overriding no_data_text" do
-          let(:options) { {no_data_text: "Yeah, nah"} }
-          it { should eq("<span class=\"text-muted\">Yeah, nah</span>") }
+        describe "overriding text" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_boolean_data_text
+            FrontierDataRenderer.no_boolean_data_text = no_boolean_data_text
+            example.run
+            FrontierDataRenderer.no_boolean_data_text = previous_value
+          end
+          let(:no_boolean_data_text) { "Nah" }
+
+          context "globally" do
+            it { should eq("<span class=\"text-muted\">Nah</span>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_text: "Yeah, nah"} }
+            it { should eq("<span class=\"text-muted\">Yeah, nah</span>") }
+          end
         end
       end
 
@@ -132,14 +150,17 @@ describe FrontierDataRenderer::ViewHelper do
           it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
         end
 
-        describe "setting class on object" do
-          before { FrontierDataRenderer.no_data_class = no_data_class }
-          after  { FrontierDataRenderer.no_data_class = "text-muted" }
+        describe "globally" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_class
+            FrontierDataRenderer.no_data_class = no_data_class
+            example.run
+            FrontierDataRenderer.no_data_class = previous_value
+          end
           let(:no_data_class) { "text-quiet" }
 
           describe "overriding FrontierDataRenderer.no_data_class" do
             context "with a single class" do
-              let(:no_data_class) { "text-quiet" }
               it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
             end
 
@@ -149,20 +170,48 @@ describe FrontierDataRenderer::ViewHelper do
             end
           end
 
-          describe "setting no_data_class option" do
+          describe "locally" do
             let(:options) { {no_data_class: "yolo"} }
             it { should eq("<abbr class=\"yolo\" title=\"Not available\">N/A</abbr>") }
           end
         end
 
-        describe "overriding no_data_text" do
-          let(:options) { {no_data_text: "Jordan rules"} }
-          it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
+        describe "overriding text" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_text
+            FrontierDataRenderer.no_data_text = no_data_text
+            example.run
+            FrontierDataRenderer.no_data_text = previous_value
+          end
+          let(:no_data_text) { "No data, hey" }
+
+          context "globally" do
+            it { should eq("<abbr class=\"text-muted\" title=\"Not available\">No data, hey</abbr>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_text: "Jordan rules"} }
+            it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
+          end
         end
 
-        describe "overriding no_data_title" do
-          let(:options) { {no_data_title: "Not applicable"} }
-          it { should eq("<abbr class=\"text-muted\" title=\"Not applicable\">N/A</abbr>") }
+        describe "overriding title" do
+          around do |example|
+            previous_value = FrontierDataRenderer.no_data_title
+            FrontierDataRenderer.no_data_title = no_data_title
+            example.run
+            FrontierDataRenderer.no_data_title = previous_value
+          end
+          let(:no_data_title) { "No data, hey" }
+
+          context "globally" do
+            it { should eq("<abbr class=\"text-muted\" title=\"No data, hey\">N/A</abbr>") }
+          end
+
+          context "locally" do
+            let(:options) { {no_data_title: "Not applicable"} }
+            it { should eq("<abbr class=\"text-muted\" title=\"Not applicable\">N/A</abbr>") }
+          end
         end
       end
 

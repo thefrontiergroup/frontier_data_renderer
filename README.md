@@ -17,9 +17,10 @@ In your view, use `render_data` to show data
 render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
 
 # You can override the class by passing the 'no_data_class' option:
-render_data(nil, :string, {no_data_class: "yolo"}) # => "<abbr class="yolo" title="Not available">N/A</abbr>"
+render_data(nil, :string, {no_data_class: "text-quiet"}) # => "<abbr class="text-quiet" title="Not available">N/A</abbr>"
+render_data(nil, :string, {no_data_class: ["text-quiet", "data-na"]}) # => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>"
 
-# You can override the message provided by passing the 'no_data_text' option:
+# You can override the text provided by passing the 'no_data_text' option:
 render_data(nil, :string, {no_data_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
 
 # You can override the title of the abbreviation by passing the 'no_data_title' option:
@@ -55,19 +56,19 @@ render_data("Jordan Rules!", :text) # => "Jordan Rules!"
 render_data("Jordan Rules!", :text, length: 6) # => "<span title='Jordan Rules!'>Jor...</span>"
 ```
 
-## Globally overriding empty data classes, messages, and titles
+## Globally overriding empty data CSS classes, text, and titles
 
-You can override `FrontierDataRenderer.no_data_class` to provide your own CSS classes to be rendered on the 'N/A' `abbr` HTML element.
-
-You might want to create an initializer to do this. Example:
+You can define global overrides in an initializer. EG:
 
 ```ruby
 # in config/initializers/frontier_data_renderer.rb
+FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"]
+FrontierDataRenderer.no_data_text = "-"
+FrontierDataRenderer.no_boolean_data_text = "Nope"
+FrontierDataRenderer.no_data_title = "No data available"
 
-FrontierDataRenderer.no_data_class = "text-quiet" # Single class
-# => "<abbr class="text-quiet" title="Not available">N/A</abbr>
-FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"] # Multiple classes
-# => "<abbr class="text-quiet data-na" title="Not available">N/A</abbr>
+# in your markup, this will yield:
+# <abbr class="text-quiet data-na" title="No data available">-</abbr>
 ```
 
 Local definitions via options will take precedence over global definitions

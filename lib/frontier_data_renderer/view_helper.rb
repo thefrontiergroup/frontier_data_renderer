@@ -39,11 +39,11 @@ private
 
   def no_data_markup(type, options)
     if type == :boolean
-      content_tag(:span, options[:no_data_text] || "No", class: no_data_class(options))
+      content_tag(:span, options[:no_data_text] || FrontierDataRenderer.no_boolean_data_text, class: no_data_class(options))
     else
-      content_tag(:abbr, options[:no_data_text] || "N/A", {
+      content_tag(:abbr, options[:no_data_text] || FrontierDataRenderer.no_data_text, {
         class: no_data_class(options),
-        title: options[:no_data_title] || "Not available"
+        title: options[:no_data_title] || FrontierDataRenderer.no_data_title
       })
     end
   end
