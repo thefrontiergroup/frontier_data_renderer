@@ -13,8 +13,11 @@ gem "frontier_data_renderer", github: "thefrontiergroup/frontier_data_renderer"
 In your view, use `render_data` to show data
 
 ```ruby
-# When rendering a nil object, no matter what type you'll get
+# When rendering a nil object, for all types except for boolean you'll get:
 render_data(nil) # => "<abbr class="text-muted" title="Not available">N/A</abbr>"
+
+# You can override the message provided by passing the 'no_content_text' option:
+render_data(nil, :string, {no_content_text: "-"}) # => "<abbr class="text-muted" title="Not available">-</abbr>"
 
 # Boolean
 render_data(true, :boolean) # => "Yes"

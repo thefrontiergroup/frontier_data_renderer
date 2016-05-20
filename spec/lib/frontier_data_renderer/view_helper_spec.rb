@@ -8,9 +8,9 @@ describe FrontierDataRenderer::ViewHelper do
   end
 
   describe "#render_data" do
-    subject { helper.render_data(value, format, opts) }
+    subject { helper.render_data(value, format, options) }
     let(:helper) { FakeHelper.new }
-    let(:opts) { {} }
+    let(:options) { {} }
 
     context "with a value" do
       context "when format is a boolean" do
@@ -24,11 +24,6 @@ describe FrontierDataRenderer::ViewHelper do
 
         context "when false" do
           let(:value) { false }
-          it { should eq("<span class=\"text-muted\">No</span>") }
-        end
-
-        context "when nil" do
-          let(:value) { nil }
           it { should eq("<span class=\"text-muted\">No</span>") }
         end
       end
@@ -63,7 +58,7 @@ describe FrontierDataRenderer::ViewHelper do
         end
 
         context "with args" do
-          let(:opts) { {precision: 1} }
+          let(:options) { {precision: 1} }
           it { should include("55.7%") }
         end
       end
@@ -77,7 +72,7 @@ describe FrontierDataRenderer::ViewHelper do
         end
 
         context "and a length is specified" do
-          let(:opts) { {length: 5} }
+          let(:options) { {length: 5} }
           it { should eq("<span title=\"Thingo\">Th...</span>") }
         end
 
@@ -92,29 +87,64 @@ describe FrontierDataRenderer::ViewHelper do
     end
 
     context "when value is nil" do
-      context "when using default no_data_class" do
-        let(:format) { :string }
-        let(:value)  { nil }
-        it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
+      let(:value)  { nil }
+
+      context "when type is boolean" do
+        let(:format) { :boolean }
+
+        context "when using default no_data_class" do
+          it { should eq("<span class=\"text-muted\">No</span>") }
+        end
+
+        describe "overriding FrontierDataRenderer.no_data_class" do
+          before { FrontierDataRenderer.no_data_class = no_data_class }
+          after  { FrontierDataRenderer.no_data_class = "text-muted" }
+
+          context "with a single class" do
+            let(:no_data_class) { "text-quiet" }
+            it { should eq("<span class=\"text-quiet\">No</span>") }
+          end
+
+          context "with multiple classes" do
+            let(:no_data_class) { ["text-quiet", "data-na"] }
+            it { should eq("<span class=\"text-quiet data-na\">No</span>") }
+          end
+        end
+
+        describe "overriding no_content_text" do
+          let(:options) { {no_content_text: "Yeah, nah"} }
+          it { should eq("<span class=\"text-muted\">Yeah, nah</span>") }
+        end
       end
 
-      context "when using single custom class for no_data_class" do
-        before { FrontierDataRenderer.no_data_class = "text-quiet" }
-        after  { FrontierDataRenderer.no_data_class = "text-muted" }
-
+      context "when type is not boolean" do
         let(:format) { :string }
-        let(:value)  { nil }
-        it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+
+        context "when using default no_data_class" do
+          it { should eq("<abbr class=\"text-muted\" title=\"Not available\">N/A</abbr>") }
+        end
+
+        describe "overriding FrontierDataRenderer.no_data_class" do
+          before { FrontierDataRenderer.no_data_class = no_data_class }
+          after  { FrontierDataRenderer.no_data_class = "text-muted" }
+
+          context "with a single class" do
+            let(:no_data_class) { "text-quiet" }
+            it { should eq("<abbr class=\"text-quiet\" title=\"Not available\">N/A</abbr>") }
+          end
+
+          context "with multiple classes" do
+            let(:no_data_class) { ["text-quiet", "data-na"] }
+            it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
+          end
+        end
+
+        describe "overriding no_content_text" do
+          let(:options) { {no_content_text: "Jordan rules"} }
+          it { should eq("<abbr class=\"text-muted\" title=\"Not available\">Jordan rules</abbr>") }
+        end
       end
 
-      context "when using multiple custom classes for no_data_class" do
-        before { FrontierDataRenderer.no_data_class = ["text-quiet", "data-na"] }
-        after  { FrontierDataRenderer.no_data_class = "text-muted" }
-
-        let(:format) { :string }
-        let(:value)  { nil }
-        it { should eq("<abbr class=\"text-quiet data-na\" title=\"Not available\">N/A</abbr>") }
-      end
     end
   end
 
